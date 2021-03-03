@@ -1,0 +1,39 @@
+name: backup
+description: Cli script to create backup files from docker containers, handles them afterwards with restic
+version: 0.0.1
+author: Markus Krebs <markuskrebs93@gmail.com>
+homepage: https://www.jayjah.eu
+
+environment:
+  sdk: ">=2.6.0 <2.12.0"
+
+# dependencies
+dependencies:
+  # store local data
+  # Apache 2 License
+  # https://pub.dev/packages/hive
+  hive: ^1.4.4+1
+
+  # cli-tools
+  # MIT-License
+  # https://pub.dev/packages/dcli
+  dcli: ^0.41.16
+
+  # to compress data
+  # Apache 2 License
+  # https://pub.dev/packages/dcli
+  archive: ^2.0.13
+
+dev_dependencies:
+  test: ^1.0.0
+
+  # analyzer rules
+  pedantic: ^1.9.2
+
+  # build gen tools
+  hive_generator: ^0.8.2
+  build_runner: ^1.11.1
+
+# dart script
+executables:
+  backup: main
