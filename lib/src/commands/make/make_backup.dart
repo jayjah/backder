@@ -134,7 +134,7 @@ class MakeBackup extends Command<dynamic> {
   void _enableEmailServiceIfProvided() {
     if (_store != null && _store.mailDataProvided) {
       EmailService.instance().setUp(_store.mailJetPrivate, _store.mailJetPublic,
-          _store.errorReportMail, _store.errorReportMail);
+          _store.fromErrorMail, _store.fromErrorMail);
       _mailServiceAvailable = true;
     }
   }

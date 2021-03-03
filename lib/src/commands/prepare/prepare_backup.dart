@@ -37,7 +37,7 @@ class PrepareBackup extends Command<dynamic> {
           serverName: model.serverContainerName,
           mailJetPublic: model.mailjetPublic,
           mailJetPrivate: model.mailjetPrivate,
-          email: model.email,
+          fromErrorMail: model.fromErrorMail,
           postgresDbName: model.postgresDb,
           postgresDbPw: model.postgresPw,
           postgresDbUser: model.postgresUser),

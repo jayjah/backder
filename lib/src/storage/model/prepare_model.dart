@@ -37,7 +37,7 @@ class PrepareModel {
       ..restic = map['restic']
       ..mailjetPublic = map['mailjetPublic']
       ..mailjetPrivate = map['mailjetPrivate']
-      ..email = map['email'];
+      ..fromErrorMail = map['fromErrorMail'];
   }
 
   String postgresUser;
@@ -47,7 +47,7 @@ class PrepareModel {
   String serverContainerName;
   String mailjetPublic;
   String mailjetPrivate;
-  String email;
+  String fromErrorMail;
   String restic;
 
   bool get hasValidData {
