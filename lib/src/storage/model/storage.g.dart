@@ -21,17 +21,18 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..serverName = fields[1] as String
       ..mailJetPublic = fields[2] as String
       ..mailJetPrivate = fields[3] as String
-      ..fromErrorMail = fields[4] as String
-      ..postgresDbUser = fields[5] as String
-      ..postgresDbPw = fields[6] as String
-      ..postgresDbName = fields[7] as String
-      ..resticPassword = fields[8] as String;
+      ..emailFrom = fields[4] as String
+      ..emailTo = fields[5] as String
+      ..postgresDbUser = fields[6] as String
+      ..postgresDbPw = fields[7] as String
+      ..postgresDbName = fields[8] as String
+      ..resticPassword = fields[9] as String;
   }
 
   @override
   void write(BinaryWriter writer, Store obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.postgresName)
       ..writeByte(1)
@@ -41,14 +42,16 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..writeByte(3)
       ..write(obj.mailJetPrivate)
       ..writeByte(4)
-      ..write(obj.fromErrorMail)
+      ..write(obj.emailFrom)
       ..writeByte(5)
-      ..write(obj.postgresDbUser)
+      ..write(obj.emailTo)
       ..writeByte(6)
-      ..write(obj.postgresDbPw)
+      ..write(obj.postgresDbUser)
       ..writeByte(7)
-      ..write(obj.postgresDbName)
+      ..write(obj.postgresDbPw)
       ..writeByte(8)
+      ..write(obj.postgresDbName)
+      ..writeByte(9)
       ..write(obj.resticPassword);
   }
 

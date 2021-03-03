@@ -134,7 +134,7 @@ class MakeBackup extends Command<dynamic> {
   void _enableEmailServiceIfProvided() {
     if (_store != null && _store.mailDataProvided) {
       EmailService.instance().setUp(_store.mailJetPrivate, _store.mailJetPublic,
-          _store.fromErrorMail, _store.fromErrorMail);
+          _store.emailFrom, _store.emailFrom);
       _mailServiceAvailable = true;
     }
   }
@@ -152,8 +152,9 @@ class MakeBackup extends Command<dynamic> {
     print(cli.red('$tag $_name ERROR: \n $error'));
 
     if (_mailServiceAvailable) {
-      EmailService.instance()
-          .sendErrorReportEmail('$tag $_name', 'ERROR: \n $error');
+      EmailService.instance().sendErrorReportEmail(
+          '$tag $_name', 'ERROR: \n $error',
+          mailToReportTo: _store.emailTo);
     }
 
     // no data lack should occur when program stops here

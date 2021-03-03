@@ -9,14 +9,16 @@ class Store extends HiveObject {
   Store.fromData(
       {String mailJetPublic,
       String mailJetPrivate,
-      String fromErrorMail,
+      String emailFrom,
+      String emailTo,
       String postgresName,
       String serverName,
       String postgresDbName,
       String postgresDbUser,
       String postgresDbPw}) {
     this
-      ..fromErrorMail = fromErrorMail ?? ''
+      ..emailTo = emailTo ?? ''
+      ..emailFrom = emailFrom ?? ''
       ..postgresName = postgresName ?? ''
       ..serverName = serverName ?? ''
       ..mailJetPublic = mailJetPublic ?? ''
@@ -39,18 +41,21 @@ class Store extends HiveObject {
   String mailJetPrivate;
 
   @HiveField(4)
-  String fromErrorMail;
+  String emailFrom;
 
   @HiveField(5)
-  String postgresDbUser;
+  String emailTo;
 
   @HiveField(6)
-  String postgresDbPw;
+  String postgresDbUser;
 
   @HiveField(7)
-  String postgresDbName;
+  String postgresDbPw;
 
   @HiveField(8)
+  String postgresDbName;
+
+  @HiveField(9)
   String resticPassword;
 
   bool get mailDataProvided =>
@@ -58,8 +63,10 @@ class Store extends HiveObject {
       mailJetPrivate.isNotEmpty &&
       mailJetPublic != null &&
       mailJetPublic.isNotEmpty &&
-      fromErrorMail != null &&
-      fromErrorMail.isNotEmpty;
+      emailFrom != null &&
+      emailFrom.isNotEmpty &&
+      emailTo != null &&
+      emailTo.isNotEmpty;
 
   bool get postgresDataProvided =>
       postgresDbName != null &&
