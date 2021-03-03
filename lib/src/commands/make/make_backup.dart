@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart' as cli;
+import 'package:mailjet_sender/mailjet_sender.dart';
 
 import '../../../backup.dart';
 import '../../storage/storage_adapter.dart';
@@ -132,8 +133,8 @@ class MakeBackup extends Command<dynamic> {
 
   void _enableEmailServiceIfProvided() {
     if (_store != null && _store.mailDataProvided) {
-      // todo enable email service
-
+      EmailService.instance().setUp(_store.mailJetPrivate, _store.mailJetPublic,
+          _store.errorReportMail, _store.errorReportMail);
       _mailServiceAvailable = true;
     }
   }
@@ -151,7 +152,8 @@ class MakeBackup extends Command<dynamic> {
     print(cli.red('$tag $_name ERROR: \n $error'));
 
     if (_mailServiceAvailable) {
-      // todo send error mail
+      EmailService.instance()
+          .sendErrorReportEmail('$tag $_name', 'ERROR: \n $error');
     }
 
     // no data lack should occur when program stops here

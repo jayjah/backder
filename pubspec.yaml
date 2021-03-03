@@ -24,6 +24,13 @@ dependencies:
   # https://pub.dev/packages/dcli
   archive: ^2.0.13
 
+  # mailjet client
+  # MIT-License
+  mailjet_sender:
+    git:
+      url: https://github.com/jayjah/mailjet_sender.git
+      ref: master
+
 dev_dependencies:
   test: ^1.0.0
 
