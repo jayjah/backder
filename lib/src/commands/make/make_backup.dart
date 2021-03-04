@@ -114,10 +114,13 @@ class MakeBackup extends Command<dynamic> {
   //   https://github.com/restic/rest-server
   //
   void makeResticCall(String pathToCompressedFile) {
-    'restic'.forEach((line) {
+    // todo start restic client with compressed file and diagnostic output
+    'restic --no-cache --json'.forEach((line) {
       print('$tag restic command \n $line');
     }, stderr: _stopAndMakeErrorReport, runInShell: true);
-    // todo start restic client with compressed file and diagnostic output
+
+    // clean local backup repository afterwards
+    'restic prune'.start(runInShell: true);
   }
 
   void _parseInput() {
