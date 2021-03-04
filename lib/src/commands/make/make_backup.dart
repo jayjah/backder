@@ -81,11 +81,11 @@ class MakeBackup extends Command<dynamic> {
   void makePostgresBackup() {
     _checkForRunningContainer(_store.postgresName);
     print('postgres exec command');
-    'docker exec ${_store.postgresName} pg_dump -a -U ${_store.postgresDbUser} --password ${_store.postgresDbPw} -f /app/dump.sql'
+    'docker exec ${_store.postgresName} pg_dump -a -U ${_store.postgresDbUser} --password ${_store.postgresDbPw} -f /tmp/dump.sql'
         .start(runInShell: true);
 
     print('postgres copy command');
-    'docker cp ${_store.postgresName}:/app/dump.sql ${'pwd'.firstLine}/$backupDir'
+    'docker cp ${_store.postgresName}:/tmp/dump.sql ${'pwd'.firstLine}/$backupDir'
         .start(runInShell: true);
   }
 
