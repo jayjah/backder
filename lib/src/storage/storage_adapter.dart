@@ -17,7 +17,7 @@ abstract class StorageAdapter {
     return true;
   }
 
-  static Future<Store> get({String withKey}) async {
+  static Future<Store?> get({String? withKey}) async {
     final box = await _getStorageBox();
     if (box == null) {
       return null;
@@ -26,7 +26,7 @@ abstract class StorageAdapter {
     return result;
   }
 
-  static Future<Box> _getStorageBox() async {
+  static Future<Box?> _getStorageBox() async {
     if (boxKey.isEmpty) {
       return null;
     }

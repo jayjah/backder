@@ -14,7 +14,7 @@ Future<void> main(List<String> arguments) async {
   StorageAdapter.boxKey = '314428472B4B6250655368566D597132';
 
   await readAndParseArguments(arguments);
-  return exit(0);
+  exit(0);
 }
 
 Future<dynamic> readAndParseArguments(List<String> arguments) async {

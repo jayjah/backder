@@ -7,15 +7,15 @@ class Store extends HiveObject {
   Store();
 
   Store.fromData(
-      {String mailJetPublic,
-      String mailJetPrivate,
-      String emailFrom,
-      String emailTo,
-      String postgresName,
-      String serverName,
-      String postgresDbName,
-      String postgresDbUser,
-      String postgresDbPw}) {
+      {String? mailJetPublic,
+      String? mailJetPrivate,
+      String? emailFrom,
+      String? emailTo,
+      String? postgresName,
+      String? serverName,
+      String? postgresDbName,
+      String? postgresDbUser,
+      String? postgresDbPw}) {
     this
       ..emailTo = emailTo ?? ''
       ..emailFrom = emailFrom ?? ''
@@ -29,50 +29,43 @@ class Store extends HiveObject {
   }
 
   @HiveField(0)
-  String postgresName;
+  late String postgresName;
 
   @HiveField(1)
-  String serverName;
+  late String serverName;
 
   @HiveField(2)
-  String mailJetPublic;
+  late String mailJetPublic;
 
   @HiveField(3)
-  String mailJetPrivate;
+  late String mailJetPrivate;
 
   @HiveField(4)
-  String emailFrom;
+  late String emailFrom;
 
   @HiveField(5)
-  String emailTo;
+  late String emailTo;
 
   @HiveField(6)
-  String postgresDbUser;
+  late String postgresDbUser;
 
   @HiveField(7)
-  String postgresDbPw;
+  late String postgresDbPw;
 
   @HiveField(8)
-  String postgresDbName;
+  late String postgresDbName;
 
   @HiveField(9)
-  String resticPassword;
+  late String resticPassword;
 
   bool get mailDataProvided =>
-      mailJetPrivate != null &&
       mailJetPrivate.isNotEmpty &&
-      mailJetPublic != null &&
       mailJetPublic.isNotEmpty &&
-      emailFrom != null &&
       emailFrom.isNotEmpty &&
-      emailTo != null &&
       emailTo.isNotEmpty;
 
   bool get postgresDataProvided =>
-      postgresDbName != null &&
       postgresDbName.isNotEmpty &&
-      postgresDbPw != null &&
       postgresDbPw.isNotEmpty &&
-      postgresDbUser != null &&
       postgresDbUser.isNotEmpty;
 }

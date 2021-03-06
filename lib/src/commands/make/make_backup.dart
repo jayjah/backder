@@ -18,9 +18,9 @@ class MakeBackup extends Command<dynamic> {
           help: 'Name from server to identify backup file itself');
   }
 
-  String _name;
+  late String _name;
   bool _mailServiceAvailable = false;
-  Store _store;
+  late Store? _store;
 
   @override
   String get description => 'Make a backup';
@@ -29,8 +29,7 @@ class MakeBackup extends Command<dynamic> {
   String get name => 'make';
 
   // FORMAT: servername_01-02-1992_backup/
-  String get backupDir =>
-      '${_name?.trim() ?? ''}_${getTodayAsString}_${_backupDir}';
+  String get backupDir => '${_name.trim()}_${getTodayAsString}_${_backupDir}';
 
   // FORMAT: 01-02-2020
   String get getTodayAsString {
@@ -59,18 +58,19 @@ class MakeBackup extends Command<dynamic> {
     }
 
     // make backups
-    if (_store.postgresName.isNotEmpty) {
+    if ((_store!.postgresName.isNotEmpty) && _store!.postgresDataProvided) {
       makePostgresBackup();
     }
-    if (_store.serverName.isNotEmpty) {
+    if (_store!.serverName.isNotEmpty) {
       makeServerBackup();
     }
 
     // compress files to a .zip file
     final pathToCompressedFile = FileUtils.compressDirectory(backupDir);
+    if (pathToCompressedFile == null) {}
 
     // send backup zip file with restic cli to a restic server
-    makeResticCall(pathToCompressedFile);
+    makeResticCall(pathToCompressedFile!);
 
     // removes all files which where created during current backup session
     FileUtils.removeDirectory(backupDir);
@@ -79,23 +79,23 @@ class MakeBackup extends Command<dynamic> {
   }
 
   void makePostgresBackup() {
-    _checkForRunningContainer(_store.postgresName);
+    _checkForRunningContainer(_store!.postgresName);
     print('postgres exec command');
-    'docker exec ${_store.postgresName} pg_dump -a -U ${_store.postgresDbUser} --password ${_store.postgresDbPw} -f /tmp/dump.sql'
+    'docker exec ${_store!.postgresName} pg_dump -a -U ${_store!.postgresDbUser} --password ${_store!.postgresDbPw} -f /tmp/dump.sql'
         .start(runInShell: true);
 
     print('postgres copy command');
-    'docker cp ${_store.postgresName}:/tmp/dump.sql ${'pwd'.firstLine}/$backupDir'
+    'docker cp ${_store!.postgresName}:/tmp/dump.sql ${'pwd'.firstLine}/$backupDir'
         .start(runInShell: true);
   }
 
   // copy images from docker container to backup directory
   void makeServerBackup() {
-    _checkForRunningContainer(_store.serverName);
+    _checkForRunningContainer(_store!.serverName);
 
-    'docker cp ${_store.serverName}:/app/public/images ${'pwd'.firstLine}/$backupDir'
+    'docker cp ${_store!.serverName}:/app/public/images ${'pwd'.firstLine}/$backupDir'
         .forEach((line) {
-      print('$tag Docker cp of ${_store.serverName} \n $line');
+      print('$tag Docker cp of ${_store!.serverName} \n $line');
     }, stderr: _stopAndMakeErrorReport, runInShell: true);
   }
 
@@ -124,20 +124,20 @@ class MakeBackup extends Command<dynamic> {
   }
 
   void _parseInput() {
-    _name = argResults['name']?.toString();
+    _name = argResults?['name']?.toString() ?? '';
 
     if (!_validInputData) {
       print(cli.red('WRONG PARAMETER! Key and name must be provided!'));
-      return exit(1);
+      exit(1);
     }
   }
 
-  bool get _validInputData => _name != null && !_name.isEmpty;
+  bool get _validInputData => !_name.isEmpty;
 
   void _enableEmailServiceIfProvided() {
-    if (_store != null && _store.mailDataProvided) {
-      EmailService.instance().setUp(_store.mailJetPrivate, _store.mailJetPublic,
-          _store.emailFrom, _store.emailFrom);
+    if (_store != null && _store!.mailDataProvided) {
+      EmailService.instance().setUp(_store!.mailJetPrivate,
+          _store!.mailJetPublic, _store!.emailFrom, _store!.emailFrom);
       _mailServiceAvailable = true;
     }
   }
@@ -157,12 +157,12 @@ class MakeBackup extends Command<dynamic> {
     if (_mailServiceAvailable) {
       EmailService.instance().sendErrorReportEmail(
           '$tag $_name', 'ERROR: \n $error',
-          mailToReportTo: _store.emailTo);
+          mailToReportTo: _store!.emailTo);
     }
 
     // no data lack should occur when program stops here
     // so first delete created directory and then exit
     FileUtils.removeDirectory(backupDir);
-    return exit(1);
+    exit(1);
   }
 }

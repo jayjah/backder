@@ -11,7 +11,7 @@ abstract class DockerUtils {
     final containers = 'docker container ls'.toList(skipLines: 1);
 
     for (final container in containers) {
-      if (container.contains(containerName)) {
+      if (container?.contains(containerName) ?? false) {
         isReachable = true;
       }
     }
@@ -28,10 +28,13 @@ abstract class FileUtils {
   static void removeDirectory(String path) =>
       cli.deleteDir(path, recursive: true);
 
-  static String compressDirectory(String path) {
+  static String? compressDirectory(String path) {
     final archive = createArchiveFromDirectory(Directory(path));
     // Encode the archive as a Zip compressed file.
     final zip_data = ZipEncoder().encode(archive);
+    if (zip_data == null) {
+      return null;
+    }
 
     final backupFileName = '${path}backup.zip';
 

@@ -23,12 +23,12 @@ class PrepareBackup extends Command<dynamic> {
 
   @override
   Future<void> run() async {
-    final path = argResults['path']?.toString();
+    final path = argResults!['path']?.toString();
     if (path == null || path.isEmpty) {
       _stop('ARGUMENT ERROR: file path is missing!');
     }
 
-    final model = _parseAndValidateFileData(path);
+    final model = _parseAndValidateFileData(path!);
 
     // create secured local storage && save data in it
     final successfullySaved = await StorageAdapter.put(
@@ -57,11 +57,11 @@ class PrepareBackup extends Command<dynamic> {
       _stop('FILE READING ERROR! '
           'Could not read provided file data!');
     }
-    if (!model.hasValidData) {
+    if (!model!.hasValidData) {
       _stop('WRONG PARAMETER! '
           'restic password AND at least one docker container must be provided!');
     }
-    if (model.postgresContainerName != null &&
+    if (model.postgresContainerName.isNotEmpty &&
         !model.hasValidPostgresCredentiels) {
       _stop('WRONG PARAMETER! '
           'Postgres docker container was named '
@@ -75,6 +75,6 @@ class PrepareBackup extends Command<dynamic> {
   void _stop(String error) {
     print(cli.red('$tag ERROR! '
         '$error'));
-    return exit(1);
+    exit(1);
   }
 }

@@ -3,13 +3,9 @@ import 'package:backup/backup.dart';
 import 'package:test/test.dart';
 
 void main() {
-  MakeBackup makeBackup;
+  late MakeBackup makeBackup;
   setUp(() {
     makeBackup = MakeBackup();
-  });
-
-  tearDown(() {
-    makeBackup = null;
   });
 
   group('MakeBackup Command - Test', () {

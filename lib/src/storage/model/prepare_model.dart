@@ -5,7 +5,7 @@ import 'package:dcli/dcli.dart' as cli;
 
 class PrepareModel {
   PrepareModel();
-  static PrepareModel fromFile(String path) {
+  static PrepareModel? fromFile(String path) {
     final input = File(path);
     if (!input.existsSync()) {
       return null;
@@ -29,37 +29,37 @@ class PrepareModel {
     }
 
     return PrepareModel()
-      ..serverContainerName = map['serverDockerContainerName']
-      ..postgresPw = map['postgresPw']
-      ..postgresUser = map['postgresUser']
-      ..postgresDb = map['postgresDb']
-      ..postgresContainerName = map['postgresDockerContainerName']
-      ..restic = map['restic']
-      ..mailjetPublic = map['mailjetPublic']
-      ..mailjetPrivate = map['mailjetPrivate']
-      ..emailTo = map['emailTo']
-      ..emailFrom = map['emailFrom'];
+      ..serverContainerName = map['serverDockerContainerName'] ?? ''
+      ..postgresPw = map['postgresPw'] ?? ''
+      ..postgresUser = map['postgresUser'] ?? ''
+      ..postgresDb = map['postgresDb'] ?? ''
+      ..postgresContainerName = map['postgresDockerContainerName'] ?? ''
+      ..restic = map['restic'] ?? ''
+      ..mailjetPublic = map['mailjetPublic'] ?? ''
+      ..mailjetPrivate = map['mailjetPrivate'] ?? ''
+      ..emailTo = map['emailTo'] ?? ''
+      ..emailFrom = map['emailFrom'] ?? '';
   }
 
-  String postgresUser;
-  String postgresPw;
-  String postgresDb;
-  String postgresContainerName;
-  String serverContainerName;
-  String mailjetPublic;
-  String mailjetPrivate;
-  String emailTo;
-  String emailFrom;
-  String restic;
+  late String postgresUser;
+  late String postgresPw;
+  late String postgresDb;
+  late String postgresContainerName;
+  late String serverContainerName;
+  late String mailjetPublic;
+  late String mailjetPrivate;
+  late String emailTo;
+  late String emailFrom;
+  late String restic;
 
   bool get hasValidData {
-    if ((serverContainerName == null && postgresContainerName == null) ||
-        restic == null) {
+    if ((serverContainerName.isEmpty && postgresContainerName.isEmpty) ||
+        restic.isEmpty) {
       false;
     }
     return true;
   }
 
   bool get hasValidPostgresCredentiels =>
-      postgresUser != null && postgresDb != null && postgresPw != null;
+      postgresUser.isNotEmpty && postgresDb.isNotEmpty && postgresPw.isNotEmpty;
 }

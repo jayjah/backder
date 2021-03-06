@@ -4,13 +4,9 @@ import 'package:dcli/dcli.dart';
 import 'package:test/test.dart';
 
 void main() {
-  PrepareBackup prepare;
+  late PrepareBackup prepare;
   setUp(() {
     prepare = PrepareBackup();
-  });
-
-  tearDown(() {
-    prepare = null;
   });
 
   group('Prepare Command - Test', () {

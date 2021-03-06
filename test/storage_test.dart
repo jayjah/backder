@@ -24,7 +24,7 @@ void main() {
 
       final store = await StorageAdapter.get();
       expect(store, isNotNull);
-      expect(store.serverName, serverName);
+      expect(store?.serverName, serverName);
     });
   });
 }
