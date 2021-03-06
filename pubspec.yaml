@@ -1,6 +1,6 @@
 name: backup
 description: Cli script to create backup files from docker containers, handles them afterwards with restic
-version: 0.0.1
+version: 0.0.2
 author: Markus Krebs <markuskrebs93@gmail.com>
 homepage: https://www.jayjah.eu
 
