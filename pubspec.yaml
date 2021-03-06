@@ -5,24 +5,24 @@ author: Markus Krebs <markuskrebs93@gmail.com>
 homepage: https://www.jayjah.eu
 
 environment:
-  sdk: ">=2.6.0 <2.12.0"
+  sdk: ">=2.12.0"
 
 # dependencies
 dependencies:
   # store local data
   # Apache 2 License
   # https://pub.dev/packages/hive
-  hive: ^1.4.4+1
+  hive: ^2.0.0
 
   # cli-tools
   # MIT-License
   # https://pub.dev/packages/dcli
-  dcli: ^0.41.16
+  dcli: ^0.50.2
 
   # to compress data
   # Apache 2 License
   # https://pub.dev/packages/dcli
-  archive: ^2.0.13
+  archive: ^3.1.2
 
   # mailjet client
   # MIT-License
@@ -35,11 +35,11 @@ dev_dependencies:
   test: ^1.0.0
 
   # analyzer rules
-  pedantic: ^1.9.2
+  pedantic: ^1.11.0
 
   # build gen tools
-  hive_generator: ^0.8.2
-  build_runner: ^1.11.1
+  hive_generator: ^1.0.0
+  build_runner: ^1.11.5
 
 # dart script
 executables:
