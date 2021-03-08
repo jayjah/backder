@@ -26,7 +26,8 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..postgresDbUser = fields[6] as String
       ..postgresDbPw = fields[7] as String
       ..postgresDbName = fields[8] as String
-      ..resticPassword = fields[9] as String;
+      ..resticPassword = fields[9] as String
+      ..resticServerPath = fields[10] as String;
   }
 
   @override
@@ -52,7 +53,9 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..writeByte(8)
       ..write(obj.postgresDbName)
       ..writeByte(9)
-      ..write(obj.resticPassword);
+      ..write(obj.resticPassword)
+      ..writeByte(10)
+      ..write(obj.resticServerPath);
   }
 
   @override

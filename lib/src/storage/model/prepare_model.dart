@@ -38,7 +38,8 @@ class PrepareModel {
       ..mailjetPublic = map['mailjetPublic'] ?? ''
       ..mailjetPrivate = map['mailjetPrivate'] ?? ''
       ..emailTo = map['emailTo'] ?? ''
-      ..emailFrom = map['emailFrom'] ?? '';
+      ..emailFrom = map['emailFrom'] ?? ''
+      ..resticServerPath = map['resticServerPath'] ?? '';
   }
 
   late String postgresUser;
@@ -51,10 +52,12 @@ class PrepareModel {
   late String emailTo;
   late String emailFrom;
   late String restic;
+  late String resticServerPath;
 
   bool get hasValidData {
     if ((serverContainerName.isEmpty && postgresContainerName.isEmpty) ||
-        restic.isEmpty) {
+        restic.isEmpty ||
+        resticServerPath.isEmpty) {
       false;
     }
     return true;

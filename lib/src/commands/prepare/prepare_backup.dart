@@ -38,9 +38,11 @@ class PrepareBackup extends Command<dynamic> {
           mailJetPublic: model.mailjetPublic,
           mailJetPrivate: model.mailjetPrivate,
           emailTo: model.emailTo,
+          resticPassword: model.restic,
           emailFrom: model.emailFrom,
           postgresDbName: model.postgresDb,
           postgresDbPw: model.postgresPw,
+          resticServerPath: model.resticServerPath,
           postgresDbUser: model.postgresUser),
     );
 
