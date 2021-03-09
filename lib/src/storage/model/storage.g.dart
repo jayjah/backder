@@ -33,7 +33,7 @@ class StoreAdapter extends TypeAdapter<Store> {
   @override
   void write(BinaryWriter writer, Store obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.postgresName)
       ..writeByte(1)
