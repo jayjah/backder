@@ -29,7 +29,7 @@ class PrepareModel {
     }
 
     return PrepareModel()
-      ..serverContainerName = map['serverDockerContainerName'] ?? ''
+      ..serverImagePath = map['serverImagePath'] ?? ''
       ..postgresPw = map['postgresPw'] ?? ''
       ..postgresUser = map['postgresUser'] ?? ''
       ..postgresDb = map['postgresDb'] ?? ''
@@ -46,7 +46,7 @@ class PrepareModel {
   late String postgresPw;
   late String postgresDb;
   late String postgresContainerName;
-  late String serverContainerName;
+  late String serverImagePath;
   late String mailjetPublic;
   late String mailjetPrivate;
   late String emailTo;
@@ -55,7 +55,7 @@ class PrepareModel {
   late String resticServerPath;
 
   bool get hasValidData {
-    if ((serverContainerName.isEmpty && postgresContainerName.isEmpty) ||
+    if ((serverImagePath.isEmpty && postgresContainerName.isEmpty) ||
         restic.isEmpty ||
         resticServerPath.isEmpty) {
       false;

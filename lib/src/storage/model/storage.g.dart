@@ -18,7 +18,7 @@ class StoreAdapter extends TypeAdapter<Store> {
     };
     return Store()
       ..postgresName = fields[0] as String
-      ..serverName = fields[1] as String
+      ..serverImagePath = fields[1] as String
       ..mailJetPublic = fields[2] as String
       ..mailJetPrivate = fields[3] as String
       ..emailFrom = fields[4] as String
@@ -37,7 +37,7 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..writeByte(0)
       ..write(obj.postgresName)
       ..writeByte(1)
-      ..write(obj.serverName)
+      ..write(obj.serverImagePath)
       ..writeByte(2)
       ..write(obj.mailJetPublic)
       ..writeByte(3)

@@ -22,7 +22,7 @@ class Store extends HiveObject {
       ..emailTo = emailTo ?? ''
       ..emailFrom = emailFrom ?? ''
       ..postgresName = postgresName ?? ''
-      ..serverName = serverName ?? ''
+      ..serverImagePath = serverName ?? ''
       ..mailJetPublic = mailJetPublic ?? ''
       ..mailJetPrivate = mailJetPrivate ?? ''
       ..postgresDbName = postgresDbName ?? ''
@@ -36,7 +36,7 @@ class Store extends HiveObject {
   late String postgresName;
 
   @HiveField(1)
-  late String serverName;
+  late String serverImagePath;
 
   @HiveField(2)
   late String mailJetPublic;

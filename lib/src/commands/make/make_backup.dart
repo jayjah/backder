@@ -91,11 +91,11 @@ class MakeBackup extends Command<dynamic> {
 
   // copy images from docker container to backup directory
   void makeServerBackup() {
-    _checkForRunningContainer(_store!.serverName);
+    _checkForRunningContainer(_store!.serverImagePath);
 
-    'docker cp ${_store!.serverName}:/app/public/images ${'pwd'.firstLine}/$backupDir'
-        .forEach((line) {
-      print('$tag Docker cp of ${_store!.serverName} \n $line');
+    'cp -r ${_store!.serverImagePath} ${'pwd'.firstLine}/$backupDir'.forEach(
+        (line) {
+      print('$tag Docker cp of ${_store!.serverImagePath} \n $line');
     }, stderr: _stopAndMakeErrorReport, runInShell: true);
   }
 

@@ -34,7 +34,7 @@ class PrepareBackup extends Command<dynamic> {
     final successfullySaved = await StorageAdapter.put(
       Store.fromData(
           postgresName: model.postgresContainerName,
-          serverName: model.serverContainerName,
+          serverName: model.serverImagePath,
           mailJetPublic: model.mailjetPublic,
           mailJetPrivate: model.mailjetPrivate,
           emailTo: model.emailTo,
