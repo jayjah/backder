@@ -29,7 +29,7 @@ class MakeBackup extends Command<dynamic> {
   String get name => 'make';
 
   // FORMAT: servername_01-02-1992_backup/
-  String get backupDir => './${_name.trim()}_${getTodayAsString}_${_backupDir}';
+  String get backupDir => '${_name.trim()}_${getTodayAsString}_${_backupDir}';
 
   // FORMAT: 01-02-2020
   String get getTodayAsString {
@@ -161,7 +161,7 @@ class MakeBackup extends Command<dynamic> {
 
     // no data lack should occur when program stops here
     // so first delete created directory and then exit
-    //FileUtils.removeDirectory(backupDir);
+    FileUtils.removeDirectory(backupDir);
     exit(1);
   }
 }
