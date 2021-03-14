@@ -89,10 +89,8 @@ class MakeBackup extends Command<dynamic> {
         .start(runInShell: true);
   }
 
-  // copy images from docker container to backup directory
+  // copy images from directory to backup directory
   void makeServerBackup() {
-    _checkForRunningContainer(_store!.serverImagePath);
-
     'cp -r ${_store!.serverImagePath} ${'pwd'.firstLine}/$backupDir'.forEach(
         (line) {
       print('$tag Docker cp of ${_store!.serverImagePath} \n $line');
