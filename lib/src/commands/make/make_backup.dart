@@ -61,7 +61,7 @@ class MakeBackup extends Command<dynamic> {
     if ((_store!.postgresName.isNotEmpty) && _store!.postgresDataProvided) {
       makePostgresBackup();
     }
-    if (_store!.serverName.isNotEmpty) {
+    if (_store!.serverImagePath.isNotEmpty) {
       makeServerBackup();
     }
 

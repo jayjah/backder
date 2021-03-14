@@ -16,7 +16,8 @@ void main() {
     test('[Save]', () async {
       StorageAdapter.boxKey = '314428472B4B6250655368566D597132';
 
-      final saved = await StorageAdapter.put(Store()..serverName = serverName);
+      final saved =
+          await StorageAdapter.put(Store()..serverImagePath = serverName);
       expect(saved, true);
     });
     test('[Get]', () async {
@@ -24,7 +25,7 @@ void main() {
 
       final store = await StorageAdapter.get();
       expect(store, isNotNull);
-      expect(store?.serverName, serverName);
+      expect(store?.serverImagePath, serverName);
     });
   });
 }
