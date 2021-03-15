@@ -161,7 +161,7 @@ class MakeBackup extends Command<dynamic> {
 
     // no data lack should occur when program stops here
     // so first delete created directory and then exit
-    //FileUtils.removeDirectory(backupDir);
+    FileUtils.removeDirectory(backupDir);
     exit(1);
   }
 }
