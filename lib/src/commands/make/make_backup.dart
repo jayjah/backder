@@ -116,7 +116,7 @@ class MakeBackup extends Command<dynamic> {
     cli.env.addAll(<String, String>{'RESTIC_PASSWORD': _store!.resticPassword});
     'restic -r rest:${_store!.resticServerPath} --no-cache backup $pathToCompressedFile'
         .forEach((line) {
-      print('$tag restic command \n $line');
+      print('$tag restic: $line');
     }, stderr: _stopAndMakeErrorReport);
 
     // clean local backup repository afterwards
