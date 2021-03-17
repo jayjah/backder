@@ -1,4 +1,4 @@
-![Dart](https://img.shields.io/badge/Dart-2.12.0-green)
+![Dart](https://img.shields.io/badge/Dart-2.12.1-green)
 
 # Backup tool
     CLI dart script to perform some backup actions on 
