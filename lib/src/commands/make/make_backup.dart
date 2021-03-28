@@ -150,7 +150,7 @@ class MakeBackup extends Command<dynamic> {
   }
 
   void makeHealthCareCall(String logs) {
-    'curl -fsS "-m 10" "--retry 5" "--data-raw $logs" "https://${_store!.healthCarePath}"'
+    'curl -fsS -m 10 --retry 5 --data-raw "$logs" https://${_store!.healthCarePath}'
         .forEach((line) {
       print('$tag makeHealthCareCall: $line');
     }, stderr: _stopAndMakeErrorReport);
@@ -200,7 +200,7 @@ class MakeBackup extends Command<dynamic> {
 
     // no data lack should occur when program stops here
     // so first delete created directory and then exit
-    // FileUtils.removeDirectory(backupDir);
+    FileUtils.removeDirectory(backupDir);
     exit(1);
   }
 }
