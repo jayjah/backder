@@ -17,7 +17,9 @@ class Store extends HiveObject {
       String? resticPassword,
       String? resticServerPath,
       String? postgresDbUser,
-      String? postgresDbPw}) {
+      String? postgresDbPw,
+      String? serverContainerName,
+      String? healthcarePath}) {
     this
       ..emailTo = emailTo ?? ''
       ..emailFrom = emailFrom ?? ''
@@ -29,6 +31,8 @@ class Store extends HiveObject {
       ..postgresDbUser = postgresDbUser ?? ''
       ..resticPassword = resticPassword ?? ''
       ..resticServerPath = resticServerPath ?? ''
+      ..healthCarePath = healthcarePath ?? ''
+      ..serverContainerName = serverContainerName ?? ''
       ..postgresDbPw = postgresDbPw ?? '';
   }
 
@@ -64,6 +68,12 @@ class Store extends HiveObject {
 
   @HiveField(10)
   late String resticServerPath;
+
+  @HiveField(11)
+  late String healthCarePath;
+
+  @HiveField(12)
+  late String serverContainerName;
 
   bool get mailDataProvided =>
       mailJetPrivate.isNotEmpty &&

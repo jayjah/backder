@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.2
 
-FROM google/dart:2.10.5 as dartimage
+FROM google/dart:2.12.2 as dartimage
 
 # dependencies
 RUN apt -y update && apt -y install libseccomp2 make gcc procps curl apt-transport-https software-properties-common build-essential

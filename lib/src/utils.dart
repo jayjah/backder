@@ -11,7 +11,7 @@ abstract class DockerUtils {
     final containers = 'docker container ls'.toList(skipLines: 1);
 
     for (final container in containers) {
-      if (container?.contains(containerName) ?? false) {
+      if (container.contains(containerName)) {
         isReachable = true;
       }
     }

@@ -1,7 +1,7 @@
 name: backup
 description: Cli script to create backup files from docker containers, handles them afterwards with restic
-version: 0.0.2
-author: Markus Krebs <markuskrebs93@gmail.com>
+version: 0.0.3
+author: jayjah <markuskrebs93@gmail.com>
 homepage: https://www.jayjah.eu
 publish_to: none
 
@@ -18,7 +18,7 @@ dependencies:
   # cli-tools
   # MIT-License
   # https://pub.dev/packages/dcli
-  dcli: ^0.50.2
+  dcli: ^0.51.5
 
   # to compress data
   # Apache 2 License

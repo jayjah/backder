@@ -41,11 +41,11 @@ class MakeBackup extends Command<dynamic> {
   Future<void> run() async {
     _parseInput();
 
-    // retrieve secured local storage by given key
+    // retrieve secured local storage
     _store = await StorageAdapter.get();
 
-    // all data from containers will be saved in this directory during
-    //    current backup session
+    // all backup data created during current session
+    //  will be saved in this directory
     FileUtils.createDirectory(backupDir);
 
     // enable email notifier when data was provided
@@ -58,43 +58,70 @@ class MakeBackup extends Command<dynamic> {
     }
 
     // make backups
+    late String serverLogs;
     if ((_store!.postgresName.isNotEmpty) && _store!.postgresDataProvided) {
       makePostgresBackup();
     }
     if (_store!.serverImagePath.isNotEmpty) {
-      makeServerBackup();
+      serverLogs = makeServerBackup();
     }
 
-    // compress files to a .zip file
+    // compress backup data to a .zip file
     final pathToCompressedFile = FileUtils.compressDirectory(backupDir);
-    if (pathToCompressedFile == null) {}
+    if (pathToCompressedFile == null) {
+      _stopAndMakeErrorReport('ERROR! Could not compress backup directory');
+    }
 
-    // send backup zip file with restic cli to a restic server
+    // send backup zip file with restic to a restic server
     makeResticCall(pathToCompressedFile!);
+
+    // Todo make healthcare call with success and logs from server
+    makeHealthCareCall(serverLogs);
 
     // removes all files which where created during current backup session
     FileUtils.removeDirectory(backupDir);
 
-    return;
+    exit(0);
   }
 
+  /// Makes postgres backup in two steps
+  ///   1. pg_dump call on database docker container to a tmp file into docker container
+  ///   2. copy before created dump to [backupDir]
   void makePostgresBackup() {
     _checkForRunningContainer(_store!.postgresName);
-    print('postgres exec command');
-    'docker exec ${_store!.postgresName} pg_dump -a -U ${_store!.postgresDbUser} --password ${_store!.postgresDbPw} -f /tmp/dump.sql'
-        .start(runInShell: true);
 
-    print('postgres copy command');
-    'docker cp ${_store!.postgresName}:/tmp/dump.sql ${'pwd'.firstLine}/$backupDir'
-        .start(runInShell: true);
+    try {
+      print('postgres exec command');
+      'docker exec ${_store!.postgresName} pg_dumpall -c -U ${_store!.postgresDbUser} -f /tmp/dump.sql' // pg_dump -a -U ${_store!.postgresDbUser} --password ${_store!.postgresDbPw} -f /tmp/dump.sql'
+          .start(runInShell: true);
+
+      print('postgres copy command');
+      'docker cp ${_store!.postgresName}:/tmp/dump.sql ${'pwd'.firstLine}/$backupDir'
+          .start(runInShell: true);
+    } catch (e) {
+      _stopAndMakeErrorReport(
+          'ERRROR! Could not make postgres backup \n Error: $e');
+    }
   }
 
   // copy images from directory to backup directory
-  void makeServerBackup() {
+  String makeServerBackup() {
     'cp -r ${_store!.serverImagePath} ${'pwd'.firstLine}/$backupDir'.forEach(
         (line) {
       print('$tag Docker cp of ${_store!.serverImagePath} \n $line');
     }, stderr: _stopAndMakeErrorReport, runInShell: true);
+
+    // get last 10kb logs from server and return that data
+
+    try {
+      final logsList =
+          ('docker logs ${_store!.serverImagePath}' | 'tail -b 10000').toList();
+      return StringBuffer(logsList).toString();
+    } catch (e) {
+      _stopAndMakeErrorReport(
+          'ERROR! Could not get logs from server \n Error: $e');
+    }
+    return '';
   }
 
   //
@@ -116,11 +143,15 @@ class MakeBackup extends Command<dynamic> {
     cli.env.addAll(<String, String>{'RESTIC_PASSWORD': _store!.resticPassword});
     'restic -r rest:${_store!.resticServerPath} --no-cache backup $pathToCompressedFile'
         .forEach((line) {
-      print('$tag restic: $line');
+      print('$tag makeResticCall: $line');
     }, stderr: _stopAndMakeErrorReport);
+  }
 
-    // clean local backup repository afterwards
-    //'restic prune'.start(runInShell: true);
+  void makeHealthCareCall(String logs) {
+    'curl -fsS -m 10 --retry 5 --data-raw "$logs" ${_store!.healthCarePath}'
+        .forEach((line) {
+      print('$tag makeHealthCareCall: $line');
+    }, stderr: _stopAndMakeErrorReport);
   }
 
   void _parseInput() {

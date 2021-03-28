@@ -5,6 +5,10 @@
 vaultbox.hive
 vaultbox.lock
 
+# compiled main files
+*.exe
+
+# local backup file
 .backup.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/dart,intellij

@@ -43,7 +43,9 @@ class PrepareBackup extends Command<dynamic> {
           postgresDbName: model.postgresDb,
           postgresDbPw: model.postgresPw,
           resticServerPath: model.resticServerPath,
-          postgresDbUser: model.postgresUser),
+          postgresDbUser: model.postgresUser,
+          serverContainerName: model.serverContainerName,
+          healthcarePath: model.healthCarePath),
     );
 
     if (!successfullySaved) {
