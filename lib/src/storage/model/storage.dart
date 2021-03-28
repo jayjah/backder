@@ -18,7 +18,7 @@ class Store extends HiveObject {
       String? resticServerPath,
       String? postgresDbUser,
       String? postgresDbPw,
-      String? serverContainerName,
+      String? servercontainerName,
       String? healthcarePath}) {
     this
       ..emailTo = emailTo ?? ''
@@ -32,7 +32,7 @@ class Store extends HiveObject {
       ..resticPassword = resticPassword ?? ''
       ..resticServerPath = resticServerPath ?? ''
       ..healthCarePath = healthcarePath ?? ''
-      ..serverContainerName = serverContainerName ?? ''
+      ..serverContainerName = servercontainerName ?? ''
       ..postgresDbPw = postgresDbPw ?? '';
   }
 

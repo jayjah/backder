@@ -28,7 +28,8 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..postgresDbName = fields[8] as String
       ..resticPassword = fields[9] as String
       ..resticServerPath = fields[10] as String
-      ..healthCarePath = fields[11] as String;
+      ..healthCarePath = fields[11] as String
+      ..serverContainerName = fields[12] as String;
   }
 
   @override
