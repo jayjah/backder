@@ -117,7 +117,7 @@ class MakeBackup extends Command<dynamic> {
         Platform.isMacOS ? 'tail -b 10000' : 'tail --byte=10000';
     try {
       final logsList =
-          ('docker logs ${_store!.serverImagePath}' | tailCommand).toList();
+          ('docker logs ${_store!.serverContainerName}' | tailCommand).toList();
       return StringBuffer(logsList).toString();
     } catch (e) {
       _stopAndMakeErrorReport(
