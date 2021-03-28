@@ -150,7 +150,7 @@ class MakeBackup extends Command<dynamic> {
   }
 
   void makeHealthCareCall(String logs) {
-    'curl -fsS -m 10 --retry 5 --data-raw "$logs" https://${_store!.healthCarePath}'
+    'curl -fsS -m 10 --retry 5 --data-raw "$logs" "https://${_store!.healthCarePath}"'
         .forEach((line) {
       print('$tag makeHealthCareCall: $line');
     }, stderr: _stopAndMakeErrorReport);
@@ -193,7 +193,7 @@ class MakeBackup extends Command<dynamic> {
           mailToReportTo: _store!.emailTo);
     }
 
-    'curl -fsS -m 10 --retry 5 --data-raw "$error" ${_store!.healthCarePath}/fail'
+    'curl -fsS -m 10 --retry 5 --data-raw "$error" "https://${_store!.healthCarePath}/fail"'
         .forEach((line) {
       print('$tag makeHealthCareFailCall: $line');
     }, stderr: _stopAndMakeErrorReport);
