@@ -108,7 +108,7 @@ class MakeBackup extends Command<dynamic> {
   String makeServerBackup() {
     'cp -r ${_store!.serverImagePath} ${'pwd'.firstLine}/$backupDir'.forEach(
         (line) {
-      print('$tag Docker cp of ${_store!.serverImagePath} \n $line');
+      //print('$tag Docker cp of ${_store!.serverImagePath} \n $line');
     }, stderr: _stopAndMakeErrorReport, runInShell: true);
 
     // get last 10kb logs from server and return that data
@@ -148,7 +148,7 @@ class MakeBackup extends Command<dynamic> {
   }
 
   void makeHealthCareCall(String logs) {
-    'curl -fsS -m 10 --retry 5 --data-raw "$logs" ${_store!.healthCarePath}'
+    'curl -fsS "-m 10" "--retry 5" "--data-raw $logs" "https://${_store!.healthCarePath}"'
         .forEach((line) {
       print('$tag makeHealthCareCall: $line');
     }, stderr: _stopAndMakeErrorReport);
@@ -191,9 +191,14 @@ class MakeBackup extends Command<dynamic> {
           mailToReportTo: _store!.emailTo);
     }
 
+    'curl -fsS -m 10 --retry 5 --data-raw "$error" ${_store!.healthCarePath}/fail'
+        .forEach((line) {
+      print('$tag makeHealthCareFailCall: $line');
+    }, stderr: _stopAndMakeErrorReport);
+
     // no data lack should occur when program stops here
     // so first delete created directory and then exit
-    FileUtils.removeDirectory(backupDir);
+    // FileUtils.removeDirectory(backupDir);
     exit(1);
   }
 }
