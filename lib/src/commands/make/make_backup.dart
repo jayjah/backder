@@ -153,10 +153,15 @@ class MakeBackup extends Command<dynamic> {
   }
 
   void makeLogglyCall(String logs) {
-    'curl -H "content-type:text/plain" -d "$logs" "https://${_store!.logglyPath}"'
+    File('$backupDir/logs.txt')
+      ..createSync()
+      ..writeAsString(logs);
+    'curl -X POST -T ${backupDir}/logs.txt https://${_store!.logglyPath}'
+        .start(runInShell: true);
+    /*'curl -H "content-type:text/plain" -d "$logs" "https://${_store!.logglyPath}"'
         .forEach((line) {
       print('$tag makeLogglyCall: $line');
-    }, stderr: _stopAndMakeErrorReport);
+    }, stderr: _stopAndMakeErrorReport);*/
   }
 
   void makeHealthCareCall(/*String logs*/) {
