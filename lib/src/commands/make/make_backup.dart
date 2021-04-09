@@ -155,8 +155,12 @@ class MakeBackup extends Command<dynamic> {
     File('$backupDir/logs.txt')
       ..createSync()
       ..writeAsString(logs);
-    'curl -X POST -T ${backupDir}/logs.txt https://${_store!.logglyPath}'
-        .start(runInShell: true);
+    try {
+      'curl -X POST -T ${backupDir}/logs.txt https://${_store!.logglyPath}'
+          .start(runInShell: true);
+    } catch (e) {
+      _stopAndMakeErrorReport('ERROR! Could not make loggly call \n Error: $e');
+    }
     /*'curl -H "content-type:text/plain" -d "$logs" "https://${_store!.logglyPath}"'
         .forEach((line) {
       print('$tag makeLogglyCall: $line');
