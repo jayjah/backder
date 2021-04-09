@@ -13,12 +13,12 @@ dependencies:
   # store local data
   # Apache 2 License
   # https://pub.dev/packages/hive
-  hive: ^2.0.0
+  hive: ^2.0.2
 
   # cli-tools
   # MIT-License
   # https://pub.dev/packages/dcli
-  dcli: ^0.51.5
+  dcli: ^0.51.8
 
   # to compress data
   # Apache 2 License
@@ -33,7 +33,7 @@ dependencies:
       ref: master
 
 dev_dependencies:
-  test: ^1.16.5
+  test: ^1.16.8
 
   # analyzer rules
   pedantic: ^1.11.0
