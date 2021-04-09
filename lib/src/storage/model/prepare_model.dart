@@ -41,6 +41,7 @@ class PrepareModel {
       ..emailFrom = map['emailFrom'] ?? ''
       ..healthCarePath = map['healthCarePath'] ?? ''
       ..serverContainerName = map['serverContainerName'] ?? ''
+      ..logglyPath = map['logglyPath'] ?? ''
       ..resticServerPath = map['resticServerPath'] ?? '';
   }
 
@@ -57,6 +58,7 @@ class PrepareModel {
   late String resticServerPath;
   late String healthCarePath;
   late String serverContainerName;
+  late String logglyPath;
   bool get hasValidData {
     if (serverImagePath.isEmpty ||
         postgresContainerName.isEmpty ||

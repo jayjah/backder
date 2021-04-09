@@ -29,13 +29,14 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..resticPassword = fields[9] as String
       ..resticServerPath = fields[10] as String
       ..healthCarePath = fields[11] as String
-      ..serverContainerName = fields[12] as String;
+      ..serverContainerName = fields[12] as String
+      ..logglyPath = fields[13] as String;
   }
 
   @override
   void write(BinaryWriter writer, Store obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.postgresName)
       ..writeByte(1)
@@ -61,7 +62,9 @@ class StoreAdapter extends TypeAdapter<Store> {
       ..writeByte(11)
       ..write(obj.healthCarePath)
       ..writeByte(12)
-      ..write(obj.serverContainerName);
+      ..write(obj.serverContainerName)
+      ..writeByte(13)
+      ..write(obj.logglyPath);
   }
 
   @override

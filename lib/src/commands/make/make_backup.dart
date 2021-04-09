@@ -75,8 +75,11 @@ class MakeBackup extends Command<dynamic> {
     // send backup zip file with restic to a restic server
     makeResticCall(pathToCompressedFile!);
 
+    // send logs
+    makeLogglyCall(serverLogs);
+
     // Todo make healthcare call with success and logs from server
-    makeHealthCareCall(serverLogs);
+    makeHealthCareCall();
 
     // removes all files which where created during current backup session
     FileUtils.removeDirectory(backupDir);
@@ -111,10 +114,10 @@ class MakeBackup extends Command<dynamic> {
       //print('$tag Docker cp of ${_store!.serverImagePath} \n $line');
     }, stderr: _stopAndMakeErrorReport, runInShell: true);
 
-    // get last 10kb logs from server and return that data
+    // get last 100mb logs from server and return it
 
     final tailCommand =
-        Platform.isMacOS ? 'tail -b 10000' : 'tail --byte=10000';
+        Platform.isMacOS ? 'tail -b 10000000' : 'tail --byte=10000000';
     try {
       final logsList =
           ('docker logs ${_store!.serverContainerName}' | tailCommand).toList();
@@ -149,9 +152,17 @@ class MakeBackup extends Command<dynamic> {
     }, stderr: _stopAndMakeErrorReport);
   }
 
-  void makeHealthCareCall(String logs) {
-    'curl -fsS -m 10 --retry 5 --data-raw "$logs" "https://${_store!.healthCarePath}"'
+  void makeLogglyCall(String logs) {
+    'curl -H "content-type:text/plain" -d "$logs" "https://${_store!.logglyPath}"'
         .forEach((line) {
+      print('$tag makeLogglyCall: $line');
+    }, stderr: _stopAndMakeErrorReport);
+  }
+
+  void makeHealthCareCall(/*String logs*/) {
+    'curl -fsS -m 10 --retry 5 "https://${_store!.healthCarePath}"'.forEach(
+        (line) {
+      /*--data-raw "$logs"*/
       print('$tag makeHealthCareCall: $line');
     }, stderr: _stopAndMakeErrorReport);
   }
