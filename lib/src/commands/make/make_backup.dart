@@ -78,7 +78,6 @@ class MakeBackup extends Command<dynamic> {
     // send logs
     makeLogglyCall(serverLogs);
 
-    // Todo make healthcare call with success and logs from server
     makeHealthCareCall();
 
     // removes all files which where created during current backup session
@@ -117,7 +116,7 @@ class MakeBackup extends Command<dynamic> {
     // get last 100mb logs from server and return it
 
     final tailCommand =
-        Platform.isMacOS ? 'tail -b 10000000' : 'tail --byte=10000000';
+        Platform.isMacOS ? 'tail -b 1000000' : 'tail --byte=1000000';
     try {
       final logsList =
           ('docker logs ${_store!.serverContainerName}' | tailCommand).toList();
