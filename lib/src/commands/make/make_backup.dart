@@ -76,7 +76,7 @@ class MakeBackup extends Command<dynamic> {
     makeResticCall(pathToCompressedFile!);
 
     // send logs
-    makeLogglyCall(serverLogs);
+    appendToLog(serverLogs);
 
     makeHealthCareCall();
 
@@ -151,16 +151,21 @@ class MakeBackup extends Command<dynamic> {
     }, stderr: _stopAndMakeErrorReport);
   }
 
-  void makeLogglyCall(String logs) {
-    File('$backupDir/logs.txt')
-      ..createSync()
-      ..writeAsString(logs);
-    try {
+  void appendToLog(String logs) {
+    final logFile = File('$backupDir/cronlog.log');
+    if (!logFile.existsSync()) {
+      logFile.createSync();
+    }
+    logFile.writeAsString(logs, mode: FileMode.append);
+    // Loggly is replaced by local promtail log file scrapper. Logs are send to
+    // Loki instance. So just append log here..
+    /*try {
       'curl -X POST -T ${backupDir}/logs.txt https://${_store!.logglyPath}'
           .start(runInShell: true);
+      print('$tag makeLogglyCall: $logs');
     } catch (e) {
       _stopAndMakeErrorReport('ERROR! Could not make loggly call \n Error: $e');
-    }
+    }*/
     /*'curl -H "content-type:text/plain" -d "$logs" "https://${_store!.logglyPath}"'
         .forEach((line) {
       print('$tag makeLogglyCall: $line');
